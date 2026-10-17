@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Lost & Found')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<section class="hero">
+    <h1>Lost something? Found something?</h1>
+    <p>Register a complaint in one minute and help the campus get belongings back to their owners.</p>
+    <div class="hero-buttons">
+        <a class="btn-yellow" th:href="@{/items/new}">Register a Complaint</a>
+        <a class="btn-outline" th:href="@{/items}">Browse Items</a>
+    </div>
+</section>
+
+<div class="container wide">
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <h2>Complaint types</h2>
+    <div class="type-grid">
+        <a class="type-card" th:href="@{/items/new(type='LOST')}">
+            <b>Lost Item</b>
+            <span>I lost something</span>
+        </a>
+        <a class="type-card" th:href="@{/items/new(type='FOUND')}">
+            <b>Found Item</b>
+            <span>I found something</span>
+        </a>
+        <a class="type-card" th:href="@{/items/new(category='ID Card')}">
+            <b>ID / Documents</b>
+            <span>Cards, books, papers</span>
+        </a>
+        <a class="type-card" th:href="@{/items/new(category='Other')}">
+            <b>Other</b>
+            <span>Anything else</span>
+        </a>
+    </div>
+
+    <h2>Quick categories</h2>
+    <div class="chips">
+        <a th:href="@{/items/new(category='Phone')}">Phone</a>
+        <a th:href="@{/items/new(category='Wallet')}">Wallet</a>
+        <a th:href="@{/items/new(category='Keys')}">Keys</a>
+        <a th:href="@{/items/new(category='Bag')}">Bag</a>
+        <a th:href="@{/items/new(category='Books')}">Books</a>
+        <a th:href="@{/items/new(category='Electronics')}">Electronics</a>
+        <a th:href="@{/items/new(category='Clothing')}">Clothing</a>
+    </div>
+</div>
+</body>
+</html>

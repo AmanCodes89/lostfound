@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Post Item')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container" style="max-width:600px">
+    <div class="card">
+        <h2>Register a Complaint</h2>
+        <div th:replace="~{fragments :: messages}"></div>
+        <form class="stack" method="post" th:action="@{/items}">
+            <label>Type</label>
+            <select name="type">
+                <option value="LOST" th:selected="${type == 'LOST'}">I lost something</option>
+                <option value="FOUND" th:selected="${type == 'FOUND'}">I found something</option>
+            </select>
+            <label>Title</label>
+            <input type="text" name="title" required>
+            <label>Category</label>
+            <select name="category">
+                <option th:each="c : ${categories}" th:value="${c}" th:text="${c}" th:selected="${c == category}">Other</option>
+            </select>
+            <label>Location</label>
+            <input type="text" name="location" required>
+            <label>Date</label>
+            <input type="date" name="eventDate" th:value="${today}" required>
+            <label>Description</label>
+            <textarea name="description"></textarea>
+            <label>Contact (phone / email)</label>
+            <input type="text" name="contact">
+            <br><br>
+            <button type="submit">Post</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Item Details')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div th:replace="~{fragments :: messages}"></div>
+    <div class="card">
+        <h2 th:text="${item.title}">Title</h2>
+        <span class="badge" th:classappend="${item.type.name()}" th:text="${item.type}">LOST</span>
+        <span class="badge" th:classappend="${item.status.name()}" th:text="${item.status}">OPEN</span>
+        <p><b>Category:</b> <span th:text="${item.category}"></span></p>
+        <p><b>Location:</b> <span th:text="${item.location}"></span></p>
+        <p><b>Date:</b> <span th:text="${#temporals.format(item.eventDate, 'dd MMM yyyy')}"></span></p>
+        <p><b>Description:</b> <span th:text="${item.description}"></span></p>
+        <p><b>Posted by:</b> <span th:text="${item.postedBy != null ? item.postedBy.name : 'Unknown'}"></span></p>
+        <p th:if="${loggedIn}"><b>Contact:</b> <span th:text="${item.contact}"></span></p>
+        <p class="muted" th:unless="${loggedIn}">Login to see contact details.</p>
+
+        <div class="actions" th:if="${canManage}">
+            <form th:if="${item.status.name() == 'OPEN'}" method="post" th:action="@{/items/{id}/resolve(id=${item.id})}">
+                <button class="green" type="submit">Mark as resolved</button>
+            </form>
+            <form method="post" th:action="@{/items/{id}/delete(id=${item.id})}">
+                <button class="danger" type="submit">Delete</button>
+            </form>
+        </div>
+        <br>
+        <a class="btn" th:href="@{/items}">Back</a>
+    </div>
+</div>
+</body>
+</html>

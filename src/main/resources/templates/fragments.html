@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Lost &amp; Found</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<nav th:fragment="navbar">
+    <a class="brand" th:href="@{/}">Lost &amp; Found</a>
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/items}">Browse Items</a>
+        <a th:href="@{/items/new}">Register Complaint</a>
+        <span th:if="${session.userName != null}">
+            <span th:text="'Hi, ' + ${session.userName}">Hi</span>
+            <form th:action="@{/logout}" method="post"><button type="submit">Logout</button></form>
+        </span>
+        <span th:if="${session.userName == null}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </span>
+    </div>
+</nav>
+<div th:fragment="messages">
+    <div class="alert ok" th:if="${msg != null}" th:text="${msg}"></div>
+    <div class="alert err" th:if="${error != null}" th:text="${error}"></div>
+</div>
+</body>
+</html>
