@@ -71,7 +71,8 @@ public class AuthController {
         }
         session.setAttribute("userId", found.get().getId());
         session.setAttribute("userName", found.get().getName());
-        return "redirect:/";
+        session.setAttribute("role", found.get().isAdmin() ? "ADMIN" : "STUDENT");
+        return found.get().isAdmin() ? "redirect:/admin" : "redirect:/";
     }
 
     @PostMapping("/logout")

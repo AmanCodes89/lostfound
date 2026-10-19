@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Edit Complaint')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container" style="max-width:600px">
+    <div class="card">
+        <h2>Edit Complaint</h2>
+        <div th:replace="~{fragments :: messages}"></div>
+        <form class="stack" method="post" th:action="@{/items/{id}/edit(id=${item.id})}">
+            <label>Type</label>
+            <select name="type">
+                <option value="LOST" th:selected="${item.type.name() == 'LOST'}">I lost something</option>
+                <option value="FOUND" th:selected="${item.type.name() == 'FOUND'}">I found something</option>
+            </select>
+            <label>Title</label>
+            <input type="text" name="title" th:value="${item.title}" required>
+            <label>Category</label>
+            <select name="category">
+                <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"
+                        th:selected="${c == item.category}">Other</option>
+            </select>
+            <label>Location</label>
+            <input type="text" name="location" th:value="${item.location}" required>
+            <label>Date</label>
+            <input type="date" name="eventDate" th:value="${item.eventDate}" required>
+            <label>Description</label>
+            <textarea name="description" th:text="${item.description}"></textarea>
+            <label>Contact (phone / email)</label>
+            <input type="text" name="contact" th:value="${item.contact}">
+            <br><br>
+            <button type="submit">Save changes</button>
+            <a class="btn" th:href="@{/items/{id}(id=${item.id})}">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

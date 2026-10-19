@@ -13,6 +13,7 @@
         <a th:href="@{/}">Home</a>
         <a th:href="@{/items}">Browse Items</a>
         <a th:href="@{/items/new}">Register Complaint</a>
+        <a th:if="${session.role == 'ADMIN'}" th:href="@{/admin}">Admin Panel</a>
         <span th:if="${session.userName != null}">
             <span th:text="'Hi, ' + ${session.userName}">Hi</span>
             <form th:action="@{/logout}" method="post"><button type="submit">Logout</button></form>

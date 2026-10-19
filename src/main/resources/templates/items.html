@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: head('Lost & Found - Home')}"></head>
+<head th:replace="~{fragments :: head('Lost & Found - Browse Items')}"></head>
 <body>
 <nav th:replace="~{fragments :: navbar}"></nav>
 <div class="container">
@@ -9,9 +9,14 @@
     <form class="filters" method="get" th:action="@{/items}">
         <input type="text" name="q" placeholder="Search by title, place, category..." th:value="${q}">
         <select name="type">
-            <option value="" th:selected="${type == ''}">All</option>
+            <option value="" th:selected="${type == ''}">All types</option>
             <option value="LOST" th:selected="${type == 'LOST'}">Lost</option>
             <option value="FOUND" th:selected="${type == 'FOUND'}">Found</option>
+        </select>
+        <select name="status">
+            <option value="" th:selected="${status == ''}">All status</option>
+            <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.label}"
+                    th:selected="${status == s.name()}">Open</option>
         </select>
         <button type="submit">Search</button>
     </form>
@@ -21,9 +26,12 @@
     <div class="card" th:each="item : ${items}">
         <h3><a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.title}">Title</a></h3>
         <span class="badge" th:classappend="${item.type.name()}" th:text="${item.type}">LOST</span>
-        <span class="badge" th:classappend="${item.status.name()}" th:text="${item.status}">OPEN</span>
+        <span class="badge" th:classappend="${item.status.name()}" th:text="${item.status.label}">Open</span>
         <span class="muted" th:text="${item.location} + ' | ' + ${item.category} + ' | ' + ${#temporals.format(item.eventDate, 'dd MMM yyyy')}">info</span>
         <p th:text="${item.description}">description</p>
+        <p class="note" th:if="${item.adminNote != null}">
+            <b>Dean office:</b> <span th:text="${item.adminNote}"></span>
+        </p>
     </div>
 </div>
 </body>

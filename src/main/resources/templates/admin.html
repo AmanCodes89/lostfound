@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Dean Office - Admin Panel')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container wide">
+    <h2>Dean Office - Admin Panel</h2>
+    <div th:replace="~{fragments :: messages}"></div>
+
+    <div class="stats">
+        <div class="stat"><b th:text="${total}">0</b><span>Total</span></div>
+        <div class="stat"><b th:text="${openCount}">0</b><span>Open</span></div>
+        <div class="stat"><b th:text="${reviewCount}">0</b><span>Under Review</span></div>
+        <div class="stat"><b th:text="${verifiedCount}">0</b><span>Verified</span></div>
+        <div class="stat"><b th:text="${resolvedCount}">0</b><span>Resolved</span></div>
+        <div class="stat"><b th:text="${rejectedCount}">0</b><span>Rejected</span></div>
+    </div>
+
+    <h3>All complaints</h3>
+    <p class="muted" th:if="${items.isEmpty()}">No complaints yet.</p>
+    <div class="card table-wrap" th:unless="${items.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Posted by</th>
+                <th>Status</th>
+                <th>Update status / note</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td>
+                    <a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.title}">Title</a><br>
+                    <span class="muted" th:text="${item.location} + ' | ' + ${#temporals.format(item.eventDate, 'dd MMM yyyy')}">info</span>
+                </td>
+                <td><span class="badge" th:classappend="${item.type.name()}" th:text="${item.type}">LOST</span></td>
+                <td th:text="${item.postedBy != null ? item.postedBy.name : 'Unknown'}">name</td>
+                <td><span class="badge" th:classappend="${item.status.name()}" th:text="${item.status.label}">Open</span></td>
+                <td>
+                    <form class="inline-form" method="post" th:action="@{/admin/items/{id}/status(id=${item.id})}">
+                        <input type="hidden" name="from" value="admin">
+                        <select name="status">
+                            <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.label}"
+                                    th:selected="${s == item.status}">Open</option>
+                        </select>
+                        <input type="text" name="note" maxlength="500" placeholder="Note for student"
+                               th:value="${item.adminNote}">
+                        <button type="submit">Save</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" th:action="@{/items/{id}/delete(id=${item.id})}"
+                          onsubmit="return confirm('Delete this complaint?');">
+                        <button class="danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Registered users</h3>
+    <div class="card table-wrap">
+        <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.name}">name</td>
+                <td th:text="${u.email}">email</td>
+                <td th:text="${u.role}">STUDENT</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

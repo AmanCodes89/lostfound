@@ -45,3 +45,24 @@ button.green { background: #2e9e5b; }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
 .chips a { background: #fff; border: 1px solid #c8d1dc; border-radius: 20px; padding: 8px 18px; text-decoration: none; color: #1f3a5f; }
 .chips a:hover { background: #1f3a5f; color: #fff; }
+
+/* ---- Status badges, admin ---- */
+.badge.UNDER_REVIEW { background: #e08a00; }
+.badge.VERIFIED { background: #6a4fc4; }
+.badge.REJECTED { background: #8b1e1e; }
+.note { background: #fff7df; border-left: 4px solid #f2a900; padding: 8px 12px; border-radius: 4px; margin: 10px 0; font-size: 14px; }
+.admin-box { margin-top: 20px; padding: 14px; background: #eef3fa; border: 1px solid #c8d6e8; border-radius: 8px; }
+.admin-box h3 { margin-top: 0; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat { background: #fff; border-radius: 8px; padding: 14px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+.stat b { display: block; font-size: 26px; color: #1f3a5f; }
+.stat span { font-size: 13px; color: #666; }
+.table-wrap { overflow-x: auto; padding: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e3e7ec; vertical-align: top; }
+th { background: #eef1f5; }
+.inline-form { display: flex; gap: 6px; align-items: center; }
+.inline-form select, .inline-form input { width: auto; min-width: 120px; padding: 6px; font-size: 13px; }
+td form { margin: 0; }
+td button { padding: 6px 12px; font-size: 13px; }
+.actions .btn, .actions form { margin-right: 8px; }

@@ -8,21 +8,50 @@
     <div class="card">
         <h2 th:text="${item.title}">Title</h2>
         <span class="badge" th:classappend="${item.type.name()}" th:text="${item.type}">LOST</span>
-        <span class="badge" th:classappend="${item.status.name()}" th:text="${item.status}">OPEN</span>
+        <span class="badge" th:classappend="${item.status.name()}" th:text="${item.status.label}">Open</span>
+
         <p><b>Category:</b> <span th:text="${item.category}"></span></p>
         <p><b>Location:</b> <span th:text="${item.location}"></span></p>
         <p><b>Date:</b> <span th:text="${#temporals.format(item.eventDate, 'dd MMM yyyy')}"></span></p>
         <p><b>Description:</b> <span th:text="${item.description}"></span></p>
         <p><b>Posted by:</b> <span th:text="${item.postedBy != null ? item.postedBy.name : 'Unknown'}"></span></p>
+        <p><b>Posted on:</b> <span th:text="${#temporals.format(item.createdAt, 'dd MMM yyyy, HH:mm')}"></span></p>
+        <p th:if="${item.updatedAt != null}"><b>Last update:</b>
+            <span th:text="${#temporals.format(item.updatedAt, 'dd MMM yyyy, HH:mm')}"></span></p>
         <p th:if="${loggedIn}"><b>Contact:</b> <span th:text="${item.contact}"></span></p>
         <p class="muted" th:unless="${loggedIn}">Login to see contact details.</p>
 
+        <div class="note" th:if="${item.adminNote != null}">
+            <b>Update from Dean office:</b>
+            <div th:text="${item.adminNote}"></div>
+        </div>
+
+        <!-- Owner (or admin) actions -->
         <div class="actions" th:if="${canManage}">
-            <form th:if="${item.status.name() == 'OPEN'}" method="post" th:action="@{/items/{id}/resolve(id=${item.id})}">
+            <a class="btn" th:href="@{/items/{id}/edit(id=${item.id})}">Edit</a>
+            <form th:if="${item.status.name() != 'RESOLVED'}" method="post" th:action="@{/items/{id}/resolve(id=${item.id})}">
                 <button class="green" type="submit">Mark as resolved</button>
             </form>
-            <form method="post" th:action="@{/items/{id}/delete(id=${item.id})}">
+            <form method="post" th:action="@{/items/{id}/delete(id=${item.id})}"
+                  onsubmit="return confirm('Delete this complaint?');">
                 <button class="danger" type="submit">Delete</button>
+            </form>
+        </div>
+
+        <!-- Dean office controls -->
+        <div class="admin-box" th:if="${admin}">
+            <h3>Dean office control</h3>
+            <form class="stack" method="post" th:action="@{/admin/items/{id}/status(id=${item.id})}">
+                <input type="hidden" name="from" value="detail">
+                <label>Status</label>
+                <select name="status">
+                    <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.label}"
+                            th:selected="${s == item.status}">Open</option>
+                </select>
+                <label>Note / update for student (optional)</label>
+                <textarea name="note" maxlength="500" th:text="${item.adminNote}"></textarea>
+                <br>
+                <button type="submit">Save update</button>
             </form>
         </div>
         <br>

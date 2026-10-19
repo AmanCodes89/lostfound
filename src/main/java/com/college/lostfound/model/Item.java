@@ -31,6 +31,12 @@ public class Item {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    /** Update / remark written by the Dean office (visible to everyone). */
+    @Column(length = 500)
+    private String adminNote;
+
+    private LocalDateTime updatedAt;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "posted_by_id")
     private User postedBy;
@@ -55,6 +61,10 @@ public class Item {
     public void setStatus(ItemStatus status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getAdminNote() { return adminNote; }
+    public void setAdminNote(String adminNote) { this.adminNote = adminNote; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public User getPostedBy() { return postedBy; }
     public void setPostedBy(User postedBy) { this.postedBy = postedBy; }
 }

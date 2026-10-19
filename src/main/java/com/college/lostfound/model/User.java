@@ -19,6 +19,9 @@ public class User {
     @Column(nullable = false)
     private String passwordHash;
 
+    /** STUDENT or ADMIN. Old rows without a role are treated as STUDENT. */
+    private String role = "STUDENT";
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
@@ -27,4 +30,10 @@ public class User {
     public void setEmail(String email) { this.email = email; }
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public String getRole() { return role == null ? "STUDENT" : role; }
+    public void setRole(String role) { this.role = role; }
+
+    public boolean isAdmin() {
+        return "ADMIN".equals(role);
+    }
 }
