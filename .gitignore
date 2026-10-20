@@ -2,4 +2,4 @@ target/
 data/
 .vscode/
 *.log
-error.txts
+error.txt
